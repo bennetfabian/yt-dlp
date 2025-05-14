@@ -821,6 +821,7 @@ from .hse import (
     HSEProductIE,
     HSEShowIE,
 )
+from .hsvtv import HSVtvIE
 from .huajiao import HuajiaoIE
 from .huffpost import HuffPostIE
 from .hungama import (
