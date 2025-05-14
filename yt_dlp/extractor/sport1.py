@@ -60,7 +60,7 @@ class Sport1IE(InfoExtractor):
             ],
             'alt_title': data.get('title'),
             'description': data.get('description'),
-            'display_id': display_id.split('__')[0],
+            'display_id': str(display_id).split('__')[0],
             'uploader': 'Sport1',
             'thumbnail': traverse_obj(data, ('layoutData', 'imageUrl')).replace(':width', '1200').replace(':height', '800'),
             'timestamp': int(upload_datetime.timestamp()),
