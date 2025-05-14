@@ -66,11 +66,14 @@ class Sport1IE(InfoExtractor):
             'upload_date': upload_datetime.strftime("%Y%m%d"),
             'release_timestamp': int(published_datetime.timestamp()),
             'release_date': published_datetime.strftime("%Y%m%d"),
-            'release_year': published_datetime.strftime("%Y"),
+            'release_year': int(published_datetime.strftime("%Y")),
             'modified_timestamp': int(modified_datetime.timestamp()),
             'modified_date': modified_datetime.strftime("%Y%m%d"),
             'duration': duration_seconds,
             'duration_string': meta.get('video_duration'),
             'media_type': meta.get('content_type'),
-            'tags': [item["title"] for item in tags_object] + [item["parent"]["title"] for item in tags_object if "parent" in item]
+            'tags': [item["title"] for item in tags_object] + [item["parent"]["title"] for item in tags_object if "parent" in item],
+
+            'sports': meta.get('video_sports'),
+            'competition': meta.get('video_competition')
         }
