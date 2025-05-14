@@ -24,8 +24,7 @@ class Sport1IE(InfoExtractor):
     }]
 
     def _real_extract(self, url):
-        display_id = self._match_id(url)
-        print(type(display_id))
+        display_id = self._match_id(url).split('__')[0]
         webpage = self._download_webpage(url, display_id)
 
         data = traverse_obj(json.loads(get_element_by_id('__NEXT_DATA__', webpage)), ('props', 'pageProps', 'layoutData'))
@@ -60,9 +59,9 @@ class Sport1IE(InfoExtractor):
             ],
             'alt_title': data.get('title'),
             'description': data.get('description'),
-            'display_id': str(display_id).split('__')[0],
+            'display_id': display_id,
             'uploader': 'Sport1',
-            'thumbnail': traverse_obj(data, ('layoutData', 'imageUrl')).replace(':width', '1200').replace(':height', '800'),
+            'thumbnail': data.get('imageUrl').replace(':width', '1200').replace(':height', '800'),
             'timestamp': int(upload_datetime.timestamp()),
             'upload_date': upload_datetime.strftime("%Y%m%d"),
             'release_timestamp': int(published_datetime.timestamp()),
