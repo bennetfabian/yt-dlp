@@ -1954,6 +1954,7 @@ from .spike import (
     BellatorIE,
     ParamountNetworkIE,
 )
+from .sport1 import Sport1IE
 from .sport5 import Sport5IE
 from .sportbox import SportBoxIE
 from .sportdeutschland import SportDeutschlandIE
