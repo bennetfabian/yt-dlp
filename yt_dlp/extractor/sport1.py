@@ -26,9 +26,6 @@ class Sport1IE(InfoExtractor):
         display_id = self._match_id(url)
         webpage = self._download_webpage(url, display_id)
 
-        # video_title = extract_attributes(get_element_html_by_attribute('data-testid', 'video-title', webpage)["data-testid"] or '')
-        # video_description = extract_attributes(get_element_html_by_attribute('data-testid', 'video-description', webpage)["data-testid"] or '')
-
         # data = json.loads(get_element_by_id('__NEXT_DATA__', webpage))
         # print(get_element_html_by_id('__NEXT_DATA__', webpage))
 
