@@ -26,8 +26,8 @@ class Sport1IE(InfoExtractor):
         display_id = self._match_id(url)
         webpage = self._download_webpage(url, display_id)
 
-        # data = json.loads(get_element_by_id('__NEXT_DATA__', webpage))
-        # print(get_element_html_by_id('__NEXT_DATA__', webpage))
+        data = json.loads(get_element_by_id('__NEXT_DATA__', webpage))
+        print(get_element_html_by_id('__NEXT_DATA__', webpage))
 
         return {
             'id': 'jahn-regensburg-karlsruher-sc-2-2-tore-highlights-2-bundesliga__97ED907D-7537-4301-BC0E-9BF5F13D4D73',
