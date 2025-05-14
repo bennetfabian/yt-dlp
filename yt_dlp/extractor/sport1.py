@@ -48,5 +48,6 @@ class Sport1IE(InfoExtractor):
             'description': traverse_obj(data, ('layoutData', 'description')),
             'alt_title': traverse_obj(data, ('layoutData', 'title')),
             'display_id': display_id,
-            'uploader': 'Sport1'
+            'uploader': 'Sport1',
+            'thumbnail': traverse_obj(data, ('layoutData', 'imageUrl')).replace(':width', '1200').replace(':height', '800')
         }
