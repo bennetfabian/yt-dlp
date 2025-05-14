@@ -4,6 +4,7 @@ from ..utils import (
     get_element_html_by_attribute,
     get_element_html_by_id,
     get_element_html_by_class,
+    get_element_by_class,
     get_element_by_id,
     traverse_obj
 )
@@ -28,43 +29,10 @@ class HSVtvIE(InfoExtractor):
         display_id = self._match_id(url).split('__')[0]
         webpage = self._download_webpage(url, display_id)
 
-        thumbnail = extract_attributes(get_element_html_by_class('vjs-poster', webpage) or '')
-        # ['style'].replace('background-image: url("', '').replace('");')
-        print(thumbnail)
-
         return {
             'id': display_id,
-            #'title': data.get('seoTitle'),
-            #'formats':[
-            #    {
-            #        'format_id': fmt,
-            #        'url': props['url'],
-            #        'filesize': props['size'],
-            #        'width': props['width'],
-            #        'height': props['height'],
-            #        'http_headers': {
-            #            'Referer': url
-            #        }
-            #    }
-            #    for fmt, props in transformations.items()
-            #],
-            #'alt_title': data.get('title'),
-            #'description': data.get('description'),
-            #'display_id': display_id,
-            #'uploader': 'Sport1',
-            #'thumbnail': data.get('imageUrl').replace(':width', '1200').replace(':height', '800'),
-            #'timestamp': int(upload_datetime.timestamp()),
-            #'upload_date': upload_datetime.strftime("%Y%m%d"),
-            #'release_timestamp': int(published_datetime.timestamp()),
-            #'release_date': published_datetime.strftime("%Y%m%d"),
-            #'release_year': int(published_datetime.strftime("%Y")),
-            #'modified_timestamp': int(modified_datetime.timestamp()),
-            #'modified_date': modified_datetime.strftime("%Y%m%d"),
-            #'duration': duration_seconds,
-            #'duration_string': meta.get('video_duration'),
-            #'media_type': meta.get('content_type'),
-            #'tags': [item["title"] for item in tags_object] + [item["parent"]["title"] for item in tags_object if "parent" in item],
-
-            #'sports': meta.get('video_sports'),
-            #'competition': meta.get('video_competition')
+            'title': str(get_element_by_class('title', webpage)),
+            'description': str(get_element_by_class('description', webpage)),
+            'uploader': 'HSVtv',
+            'media_type': str(get_element_by_class('subtitle', webpage)).split(' ')[1],
         }
