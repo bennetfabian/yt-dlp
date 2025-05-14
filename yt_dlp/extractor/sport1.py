@@ -14,12 +14,11 @@ class Sport1IE(InfoExtractor):
     _TESTS = [{
          'url': 'https://www.sport1.de/tv-video/video/jahn-regensburg-karlsruher-sc-2-2-tore-highlights-2-bundesliga__97ED907D-7537-4301-BC0E-9BF5F13D4D73',
          'info_dict': {
-             'id': 'jahn-regensburg-karlsruher-sc-2-2-tore-highlights-2-bundesliga__97ED907D-7537-4301-BC0E-9BF5F13D4D73',
+             'id': '97ED907D-7537-4301-BC0E-9BF5F13D4D73',
              'ext': 'mp4',
-             'title': 'md5:5f0cabf75dae35179cf5675ba8f1f885',
+             'title': 'md5:62791d1750cfdedb6bc335c09d446a0f',
              'description': 'Jahn Regensburg steigt aus der 2. Bundesliga ab. Ein Unentschieden gegen den Karlsruher SC besiegelt Platz 18.',
-             'display_id': 'jahn-regensburg-karlsruher-sc-2-2-tore-highlights-2-bundesliga__97ED907D-7537-4301-BC0E-9BF5F13D4D73',
-             'url': 'https://vod-dach.sport1.de/97ed907d-7537-4301-bc0e-9bf5f13d4d73/1-1080p.mp4'
+             'display_id': 'jahn-regensburg-karlsruher-sc-2-2-tore-highlights-2-bundesliga__97ED907D-7537-4301-BC0E-9BF5F13D4D73'
          }
     }]
 
@@ -31,10 +30,13 @@ class Sport1IE(InfoExtractor):
         print(data)
 
         return {
-            'id': 'jahn-regensburg-karlsruher-sc-2-2-tore-highlights-2-bundesliga__97ED907D-7537-4301-BC0E-9BF5F13D4D73',
-            'title': 'Unentschieden besiegelt Regensburgs Platz 18',
-            'description': 'Jahn Regensburg steigt aus der 2. Bundesliga ab. Ein Unentschieden gegen den Karlsruher SC besiegelt Platz 18.',
+            'id': traverse_obj(data, ('layoutData', 'id')),
+            'title': traverse_obj(data, ('layoutData', 'seoTitle')),
+            'formats':[
+                {'format_id': res, **props}
+                for res, props in traverse_obj(data, ('layoutData', 'transformations'))
+            ],
+            'description': traverse_obj(data, ('layoutData', 'description')),
             'ext': 'mp4',
             'display_id': 'jahn-regensburg-karlsruher-sc-2-2-tore-highlights-2-bundesliga__97ED907D-7537-4301-BC0E-9BF5F13D4D73',
-            'url': 'https://vod-dach.sport1.de/97ed907d-7537-4301-bc0e-9bf5f13d4d73/1-1080p.mp4'
         }
