@@ -31,8 +31,8 @@ class HSVtvIE(InfoExtractor):
 
         return {
             'id': display_id,
-            'title': str(get_element_by_class('title', webpage)),
-            'description': str(get_element_by_class('description', webpage)),
+            'title': str(get_element_by_class('title', webpage)).split('＜⧸span＞')[1].replace(r'[<＜][\/\⧸]?[a-zA-Z]{1,15}[>＞]', ''),
+            'description': str(get_element_by_class('description', webpage)).replace(r'[<＜][\/\⧸]?[a-zA-Z]{1,15}[>＞]', ''),
             'uploader': 'HSVtv',
-            'media_type': str(get_element_by_class('subtitle', webpage)).split(' ')[1],
+            'media_type': str(get_element_by_class('subtitle', webpage)).split(' ')[1].replace(r'[<＜][\/\⧸]?[a-zA-Z]{1,15}[>＞]', ''),
         }
