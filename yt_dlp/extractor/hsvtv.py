@@ -28,7 +28,8 @@ class HSVtvIE(InfoExtractor):
         display_id = self._match_id(url).split('__')[0]
         webpage = self._download_webpage(url, display_id)
 
-        thumbnail = extract_attributes(get_element_html_by_class('vjs-poster', webpage)[0])['style'].replace('background-image: url("', '').replace('");')
+        thumbnail = extract_attributes(get_element_html_by_class('vjs-poster', webpage) or '')['style'].replace('background-image: url("', '').replace('");')
+        print(thumbnail)
 
         return {
             'id': display_id,
