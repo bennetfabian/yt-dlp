@@ -29,6 +29,8 @@ class Sport1IE(InfoExtractor):
         data = traverse_obj(json.loads(get_element_by_id('__NEXT_DATA__', webpage)), ('props', 'pageProps'))
 
         transformations = traverse_obj(data, ('layoutData', 'transformations'))
+        meta = {item['key']: item['value'] for item in traverse_obj(data, ('layoutData', 'meta'))}
+        print(meta)
 
         return {
             'id': traverse_obj(data, ('layoutData', 'id')),
@@ -44,6 +46,7 @@ class Sport1IE(InfoExtractor):
                 for fmt, props in transformations.items()
             ],
             'description': traverse_obj(data, ('layoutData', 'description')),
-            'ext': 'mp4',
-            'display_id': 'jahn-regensburg-karlsruher-sc-2-2-tore-highlights-2-bundesliga__97ED907D-7537-4301-BC0E-9BF5F13D4D73',
+            'alt_title': traverse_obj(data, ('layoutData', 'title')),
+            'display_id': display_id,
+            'uploader': 'Sport1'
         }
