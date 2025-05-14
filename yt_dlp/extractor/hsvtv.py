@@ -12,7 +12,7 @@ from datetime import datetime
 import json
 
 class HSVtvIE(InfoExtractor):
-    _VALID_URL = r'https?://tv.hsv.de/detail/game/(?P<id>[\w-?=]+)'
+    _VALID_URL = r'https?://tv.hsv.de/detail/game/(?P<id>[\w\-=?]+)'
     _TESTS = [{
          'url': 'https://tv.hsv.de/detail/game/dn48rspg2qedtinh5f65xugwk?videoId=18475',
          # 'info_dict': {
