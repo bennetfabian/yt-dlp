@@ -7,6 +7,7 @@ from ..utils import (
     traverse_obj
 )
 
+from datetime import datetime
 import json
 
 class Sport1IE(InfoExtractor):
@@ -23,18 +24,26 @@ class Sport1IE(InfoExtractor):
     }]
 
     def _real_extract(self, url):
-        display_id = self._match_id(url)
+        display_id = self._match_id(url).split('__')[0]
         webpage = self._download_webpage(url, display_id)
 
-        data = traverse_obj(json.loads(get_element_by_id('__NEXT_DATA__', webpage)), ('props', 'pageProps'))
+        data = traverse_obj(json.loads(get_element_by_id('__NEXT_DATA__', webpage)), ('props', 'pageProps', 'layoutData'))
 
-        transformations = traverse_obj(data, ('layoutData', 'transformations'))
-        meta = {item['key']: item['value'] for item in traverse_obj(data, ('layoutData', 'meta', 'tracking'))}
-        print(meta)
+        transformations = data.get('transformations')
+        meta = {item['key']: item['value'] for item in traverse_obj(data, ('meta', 'tracking'))}
+
+        upload_datetime = datetime.strptime(f"{meta.get('page_publishing_date')} {meta.get('page_publishing_time')}", "%Y-%m-%d %H:%M:%S")
+        published_datetime = datetime.strptime(f"{meta.get('video_publishing_date')} {meta.get('video_publishing_time')}", "%Y-%m-%d %H:%M:%S")
+        modified_datetime = datetime.strptime(f"{meta.get('page_updated_date')} {meta.get('page_updated_time')}", "%Y-%m-%d %H:%M:%S")
+
+        minutes, seconds = map(int, meta.get('video_duration').split(":"))
+        duration_seconds = minutes * 60 + seconds
+
+        tags_object = data.get('tags')
 
         return {
-            'id': traverse_obj(data, ('layoutData', 'id')),
-            'title': traverse_obj(data, ('layoutData', 'seoTitle')),
+            'id': data.get('id'),
+            'title': data.get('seoTitle'),
             'formats':[
                 {
                     'format_id': fmt,
@@ -48,10 +57,20 @@ class Sport1IE(InfoExtractor):
                 }
                 for fmt, props in transformations.items()
             ],
-            'description': traverse_obj(data, ('layoutData', 'description')),
-            'alt_title': traverse_obj(data, ('layoutData', 'title')),
+            'alt_title': data.get('title'),
+            'description': data.get('description'),
             'display_id': display_id,
             'uploader': 'Sport1',
             'thumbnail': traverse_obj(data, ('layoutData', 'imageUrl')).replace(':width', '1200').replace(':height', '800'),
-            'upload_date': meta.get('page_publishing_date').replace('-', '')
+            'timestamp': int(upload_datetime.timestamp()),
+            'upload_date': upload_datetime.strftime("%Y%m%d"),
+            'release_timestamp': int(published_datetime.timestamp()),
+            'release_date': published_datetime.strftime("%Y%m%d"),
+            'release_year': published_datetime.strftime("%Y"),
+            'modified_timestamp': int(modified_datetime.timestamp()),
+            'modified_date': modified_datetime.strftime("%Y%m%d"),
+            'duration': duration_seconds,
+            'duration_string': meta.get('video_duration'),
+            'media_type': meta.get('content_type'),
+            'tags': [item["title"] for item in tags_object] + [item["parent"]["title"] for item in tags_object if "parent" in item]
         }
