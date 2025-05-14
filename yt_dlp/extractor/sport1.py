@@ -29,9 +29,7 @@ class Sport1IE(InfoExtractor):
         data = traverse_obj(json.loads(get_element_by_id('__NEXT_DATA__', webpage)), ('props', 'pageProps'))
 
         transformations = traverse_obj(data, ('layoutData', 'transformations'))
-        meta = traverse_obj(data, ('layoutData', 'meta'))
-        print(meta)
-        meta = {item['key']: item['value'] for item in traverse_obj(data, ('layoutData', 'meta'))}
+        meta = {item['key']: item['value'] for item in traverse_obj(data, ('layoutData', 'meta', 'tracking'))}
         print(meta)
 
         return {
