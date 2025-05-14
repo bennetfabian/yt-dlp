@@ -41,7 +41,10 @@ class Sport1IE(InfoExtractor):
                     'url': props['url'],
                     'filesize': props['size'],
                     'width': props['width'],
-                    'height': props['height']
+                    'height': props['height'],
+                    'http_headers': {
+                        'Referer': url
+                    }
                 }
                 for fmt, props in transformations.items()
             ],
