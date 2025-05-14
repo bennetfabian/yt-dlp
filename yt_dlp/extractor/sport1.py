@@ -53,5 +53,5 @@ class Sport1IE(InfoExtractor):
             'display_id': display_id,
             'uploader': 'Sport1',
             'thumbnail': traverse_obj(data, ('layoutData', 'imageUrl')).replace(':width', '1200').replace(':height', '800'),
-            'upload_date': meta.get('page_publishing_date')
+            'upload_date': meta.get('page_publishing_date').replace('-', '')
         }
