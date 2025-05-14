@@ -27,15 +27,15 @@ class Sport1IE(InfoExtractor):
         webpage = self._download_webpage(url, display_id)
 
         data = traverse_obj(json.loads(get_element_by_id('__NEXT_DATA__', webpage)), ('props', 'pageProps'))  # correct
-        print(data)
+        print(traverse_obj(data, ('layoutData', 'transformations')))
 
         return {
             'id': traverse_obj(data, ('layoutData', 'id')),
             'title': traverse_obj(data, ('layoutData', 'seoTitle')),
-            'formats':[
-                {'format_id': res, **props}
-                for res, props in traverse_obj(data, ('layoutData', 'transformations'))
-            ],
+            # 'formats':[
+            #     {'format_id': res, **props}
+            #     for res, props in traverse_obj(data, ('layoutData', 'transformations'))
+            # ],
             'description': traverse_obj(data, ('layoutData', 'description')),
             'ext': 'mp4',
             'display_id': 'jahn-regensburg-karlsruher-sc-2-2-tore-highlights-2-bundesliga__97ED907D-7537-4301-BC0E-9BF5F13D4D73',
